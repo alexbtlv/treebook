@@ -1,6 +1,6 @@
 class StatusesController < ApplicationController
 
-  before_filter :authenticate_user!, only: [:new]
+  before_filter :authenticate_user!, only: [:new, :create, :update, :edit]
 
   # GET /statuses
   # GET /statuses.json
