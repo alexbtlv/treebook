@@ -3,3 +3,9 @@ alex:
  last_name: "Batalov"
  profile_name: 'alexander'
  email: 'q@q.qq'
+
+tony:
+ first_name: "Ivan"
+ last_name: "Batalov"
+ profile_name: 'tony'
+ email: 'w@w.w'
