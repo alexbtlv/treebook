@@ -9,3 +9,9 @@ tony:
  last_name: "Batalov"
  profile_name: 'tony'
  email: 'w@w.w'
+
+mike:
+ first_name: "Mike"
+ last_name: "The Sailor"
+ profile_name: 'mike'
+ email: 'z@z.z'
