@@ -10,6 +10,10 @@ gem 'devise'
 gem 'simple_form'
 gem 'bootstrap-sass'
 
+group :test do
+	gem 'shoulda'
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
