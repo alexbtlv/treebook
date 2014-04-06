@@ -4,6 +4,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 
+//= require js-routes
 //= require jquery
 //= require jquery_ujs
 
