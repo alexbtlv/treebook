@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.6'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -13,10 +13,12 @@ gem 'state_machine'
 gem 'draper'
 gem 'js-routes'
 gem 'sprockets'
+gem 'paperclip'
 
-group :test do
+group  :development, :test do
 	gem 'shoulda'
 	gem 'factory_girl_rails'
+	gem 'log_buddy'
 end
 
 # Gems used only for assets and not required
