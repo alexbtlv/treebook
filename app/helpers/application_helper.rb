@@ -20,15 +20,16 @@ module ApplicationHelper
 		end
 	end
 
+	def avatar_profile_link(user, image_options={}, html_options={})
+		avatar_url = user.avatar? ? user.avatar.url(:thumb) : user.gravatar_url
+		link_to(image_tag(avatar_url, image_options), profile_path(user.profile_name), html_options)
+	end
+
 	def page_header(&block)
 		content_tag(:div, capture(&block), class: 'page-header')
 	end
 	
 	def can_display_status?(status)
-		signed_in? && !current_user.has_blocked?(status.user) || !signed_in?
-	end
-
-	def avatar_profile_link(user, image_options={}, html_options={})
-		link_to(image_tag(user.gravatar_url, image_options), profile_path(user.profile_name), html_options)
+		signed_in? || !signed_in?
 	end
 end
