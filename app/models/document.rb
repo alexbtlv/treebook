@@ -3,8 +3,7 @@ class Document < ActiveRecord::Base
   attr_accessible :attachment, :remove_attachment
   has_attached_file :attachment
 
-  validates_attachment :attachment, content_type: { content_type: ["image/jpg", "image/jpeg", "image/png"] }
-
+  validates_attachment_content_type :attachment, :content_type => /\Aimage\/.*\Z/
   attr_accessor :remove_attachment
 
   before_save :perform_attachment_removal
