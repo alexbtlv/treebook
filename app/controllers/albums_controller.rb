@@ -1,8 +1,12 @@
 class AlbumsController < ApplicationController
+  before_filter :authenticate_user!, only: [:create, :new, :update, :edit, :destroy]
+  before_filter :find_user
+  before_filter :find_album, only: [:edit, :update, :destroy, :show]
+
   # GET /albums
   # GET /albums.json
   def index
-    @albums = Album.all
+    @albums = current_user.albums.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +17,7 @@ class AlbumsController < ApplicationController
   # GET /albums/1
   # GET /albums/1.json
   def show
-    @album = Album.find(params[:id])
+    @album = current_user.albums.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +28,7 @@ class AlbumsController < ApplicationController
   # GET /albums/new
   # GET /albums/new.json
   def new
-    @album = Album.new
+    @album = current_user.albums.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,13 +38,13 @@ class AlbumsController < ApplicationController
 
   # GET /albums/1/edit
   def edit
-    @album = Album.find(params[:id])
+    @album = current_user.albums.find(params[:id])
   end
 
   # POST /albums
   # POST /albums.json
   def create
-    @album = Album.new(params[:album])
+    @album = current_user.albums.new(params[:album])
 
     respond_to do |format|
       if @album.save
@@ -56,7 +60,7 @@ class AlbumsController < ApplicationController
   # PUT /albums/1
   # PUT /albums/1.json
   def update
-    @album = Album.find(params[:id])
+    @album = current_user.albums.find(params[:id])
 
     respond_to do |format|
       if @album.update_attributes(params[:album])
@@ -72,7 +76,7 @@ class AlbumsController < ApplicationController
   # DELETE /albums/1
   # DELETE /albums/1.json
   def destroy
-    @album = Album.find(params[:id])
+    @album = current_user.albums.find(params[:id])
     @album.destroy
 
     respond_to do |format|
@@ -80,4 +84,30 @@ class AlbumsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def url_options
+    { profile_name: params[:profile_name] }.merge(super)
+  end
+
+  private
+
+  def find_user
+    @user = User.find_by_profile_name(params[:profile_name])
+  end
+
+  def find_album
+    @album = current_user.albums.find(params[:id])
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+

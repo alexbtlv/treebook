@@ -1,11 +1,4 @@
 Treebook::Application.routes.draw do
-  resources :pictures
-
-
-  resources :albums
-
-
-  get "profiles/show"
 
   devise_for :users
 
@@ -38,6 +31,12 @@ Treebook::Application.routes.draw do
   root :to => "statuses#index"
 
   get '/:id', to: 'profiles#show', as: 'profile'
+
+  scope ":profile_name" do
+    resources :albums do
+      resources :pictures
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
