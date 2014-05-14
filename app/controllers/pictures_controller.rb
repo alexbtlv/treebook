@@ -1,8 +1,13 @@
 class PicturesController < ApplicationController
+  before_filter :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_filter :find_user
+  before_filter :find_album
+
+
   # GET /pictures
   # GET /pictures.json
   def index
-    @pictures = Picture.all
+    @pictures = @album.pictures.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -39,12 +44,12 @@ class PicturesController < ApplicationController
 
   # POST /pictures
   # POST /pictures.json
-  def create
-    @picture = Picture.new(params[:picture])
-
+   def create
+    @picture = @album.pictures.new(params[:picture])
+    
     respond_to do |format|
       if @picture.save
-        format.html { redirect_to @picture, notice: 'Picture was successfully created.' }
+        format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully created.' }
         format.json { render json: @picture, status: :created, location: @picture }
       else
         format.html { render action: "new" }
@@ -60,7 +65,7 @@ class PicturesController < ApplicationController
 
     respond_to do |format|
       if @picture.update_attributes(params[:picture])
-        format.html { redirect_to @picture, notice: 'Picture was successfully updated.' }
+        format.html { redirect_to album_pictures_path(@album), notice: 'Picture was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -76,8 +81,44 @@ class PicturesController < ApplicationController
     @picture.destroy
 
     respond_to do |format|
-      format.html { redirect_to pictures_url }
+      format.html { redirect_to album_pictures_path(@album) }
       format.json { head :no_content }
     end
   end
+
+  def url_options
+    { profile_name: params[:profile_name] }.merge(super)
+  end
+
+  private
+
+  def ensure_proper_user
+    if current_user != @user
+      flash[:error] = "You don't have permission to do that."
+      redirect_to album_pictures_path
+    end
+  end
+
+  def find_user
+    @user = User.find_by_profile_name(params[:profile_name])
+  end
+
+  def find_album
+    if signed_in? && current_user.profile_name == params[:profile_name]
+      @album = current_user.albums.find(params[:album_id])
+    else
+      @album = @user.albums.find(params[:album_id])
+    end
+  end
+
+  def find_picture
+    @picture = @album.pictures.find(params[:id])
+  end
 end
+
+
+
+
+
+
+

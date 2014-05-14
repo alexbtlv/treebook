@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= image_tag(@picture.asset.url(:large), alt:@picture.caption, class: 'img-polaroid') %>
+
 <p>
   <b>Album:</b>
   <%= @picture.album %>
@@ -21,5 +23,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_picture_path(@picture) %> |
-<%= link_to 'Back', pictures_path %>
+<%= link_to 'Edit', edit_album_picture_path(@album, @picture) %> |
+<%= link_to 'Back', album_pictures_path(@album) %>
