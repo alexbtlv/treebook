@@ -2,7 +2,7 @@ class PicturesController < ApplicationController
   before_filter :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
   before_filter :find_user
   before_filter :find_album
-
+  before_filter :add_breadcrumbs
 
   # GET /pictures
   # GET /pictures.json
@@ -19,7 +19,7 @@ class PicturesController < ApplicationController
   # GET /pictures/1.json
   def show
     @picture = Picture.find(params[:id])
-
+    add_breadcrumb @picture, album_picture_path(@album, @picture)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @picture }
@@ -91,6 +91,12 @@ class PicturesController < ApplicationController
   end
 
   private
+
+  def add_breadcrumbs
+    add_breadcrumb @user.first_name, profile_path(@user)
+    add_breadcrumb "Albums", albums_path
+    add_breadcrumb "pictures", album_pictures_path(@album)
+  end
 
   def ensure_proper_user
     if current_user != @user
