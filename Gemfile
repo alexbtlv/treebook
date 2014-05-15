@@ -14,6 +14,7 @@ gem 'draper'
 gem 'js-routes'
 gem 'sprockets'
 gem 'paperclip'
+gem 'twitter-bootstrap-rails'
 
 group  :development, :test do
 	gem 'shoulda'
