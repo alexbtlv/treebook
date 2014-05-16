@@ -4,6 +4,7 @@ class UserTest < ActiveSupport::TestCase
 
 	should have_many(:user_friendships)
 	should have_many(:friends)
+	should have_many(:activities)
 
 	test "a user should enter a first name" do
 		user = User.new
@@ -53,6 +54,30 @@ class UserTest < ActiveSupport::TestCase
 
 	test "that calling to_param on a user returns the profile name" do
 		assert_equal 'alexander', users(:alex).to_param
+	end
+
+	context "#create activity" do
+		should "increas the Activity count" do
+			assert_difference 'Activity.count' do
+				users(:alex).create_activity(statuses(:one), 'created')
+			end
+		end
+
+		should "set the targetable instance to the item passed in" do
+			activity = users(:alex).create_activity(statuses(:one), 'created')
+			assert_equal statuses(:one), activity.targetable
+		end
+
+		should "increas the Activity count with an album" do
+			assert_difference 'Activity.count' do
+				users(:alex).create_activity(albums(:vacation), 'created')
+			end
+		end
+
+		should "set the targetable instance to the item passed in with an album" do
+			activity = users(:alex).create_activity(albums(:vacation), 'created')
+			assert_equal albums(:vacation), activity.targetable
+		end
 	end
 
 end
