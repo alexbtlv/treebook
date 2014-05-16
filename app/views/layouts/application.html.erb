@@ -17,6 +17,9 @@
 			<ul class="nav navbar-nav">
 				<li>
 					<%= link_to "All statuses", feed_path %>
+					<% if user_signed_in? %>
+						<li><%= link_to "Activity feed", activities_path %></li>
+					<% end %>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
