@@ -94,6 +94,7 @@ class StatusesController < ApplicationController
   def destroy
     @status = Status.find(params[:id])
     @status.destroy
+    current_user.create_activity(@status, 'deleted')
 
     respond_to do |format|
       format.html { redirect_to statuses_url }
