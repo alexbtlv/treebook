@@ -38,6 +38,15 @@ class StatusesControllerTest < ActionController::TestCase
     assert_redirected_to status_path(assigns(:status))
   end
 
+  test "should create activity item for the status when logged in" do
+    sign_in users(:alex)
+
+    assert_difference('Activity.count') do
+      post :create, status: { content: @status.content }
+    end
+  end
+
+
   test "should create status for current user when logged in" do
     sign_in users(:alex)
     assert_difference('Status.count') do
@@ -69,6 +78,13 @@ class StatusesControllerTest < ActionController::TestCase
     sign_in users(:alex)
     put :update, id: @status, status: { content: @status.content }
     assert_redirected_to status_path(assigns(:status))
+  end
+
+  test "should create an activity when status is updated" do
+    sign_in users(:alex)
+    assert_difference 'Activity.count' do
+      put :update, id: @status, status: { content: @status.content }
+    end
   end
 
   test "should update status for current user when logged in" do
