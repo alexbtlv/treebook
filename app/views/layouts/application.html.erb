@@ -52,9 +52,7 @@
 	<a href="#" class="dropdown-toggle">Activity feed</a>
 	<ul class="dropdown-menu">
 	{{#each activities}}
-		<li>
-			<a href="#">{{this.user_id}} {{this.action}} {{this.targetable_type}} </a>
-		</li>
+		{{activityLink}}
 	{{/each}}
 	</ul>
 </script>

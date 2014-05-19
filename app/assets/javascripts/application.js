@@ -61,4 +61,49 @@ var poolActivity = function(argument) {
 	});
 }
 
+Handlebars.registerHelper('activityLink', function() {
+	var link, path, html;
+	var activity = this;
+	var linkText = activity.targetable_type.toLowerCase();
+
+	switch (linkText) {
+		case "status":
+		path = Routes.status_path(activity.targetable_id);
+		break;
+		
+		case "album":
+		path = Routes.album_path(activity.profile_name, activity.targetable_id);
+		break;
+
+		case "picture":
+		path = Routes.album_picture_path(activity.profile_name, activity.targetable.album_id, activity.targetable.picture_id);
+		break;
+
+		case "userfriendship":
+		path = Routes.profile_path(activity.profile_name);
+		linkText = "friend";
+		break;
+	}
+
+	if (activity.action === 'deleted') {
+		path = '#'
+	};
+
+	html = "<li><a href='"+ path +"'>" + this.user_name + " " + this.action + " a " + linkText + "</a></li>";
+	return new Handlebars.SafeString(html);
+});
+
 window.poolInterval = window.setInterval( poolActivity, 5000 )
+poolActivity()
+
+
+
+
+
+
+
+
+
+
+
+
