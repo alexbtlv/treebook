@@ -1,7 +1,9 @@
 class ActivitiesController < ApplicationController
-  def index
-  	params[:page] ||= 1
-  	@activities = Activity.for_user(current_user, params)
+	respond_to :html, :json
 
-  end
+	def index
+		params[:page] ||= 1
+		@activities = Activity.for_user(current_user, params)
+		respond_with @activities
+	end
 end
