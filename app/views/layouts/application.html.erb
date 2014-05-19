@@ -18,7 +18,7 @@
 				<li>
 					<%= link_to "All statuses", feed_path %>
 					<% if user_signed_in? %>
-						<li><%= link_to "Activity feed", activities_path %></li>
+						<li id="activity-feed"><%= link_to "Activity feed", activities_path %></li>
 					<% end %>
 				</li>
 			</ul>
@@ -47,6 +47,23 @@
 	<% end %>
 	<%= yield %>
 </div>
-
 </body>
+<script id="activities-template" type="text/x-handlebars-template">
+	<a href="#" class="dropdown-toggle">Activity feed</a>
+	<ul class="dropdown-menu">
+	{{#each activities}}
+		<li>
+			<a href="#">{{this.user_id}} {{this.action}} {{this.targetable_type}} </a>
+		</li>
+	{{/each}}
+	</ul>
+</script>
 </html>
+
+
+
+
+
+
+
+
