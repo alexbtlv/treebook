@@ -27,6 +27,16 @@ addActivity = function(item) {
 
 	if (!found) {
 		window.loadedActivities.push(item);
+		window.loadedActivities.sort(function(a,b) {
+			var returnValue;
+			if (a.created_at > b.created_at)
+				returnValue = -1;
+			if (b.created_at > a.created_at)
+				returnValue = 1;
+			if (a.created_at == b.created_at)
+				returnValue == 0;
+			return returnValue;
+		});
 	};
 
 	return item;
@@ -35,7 +45,10 @@ addActivity = function(item) {
 var renderActivities = function() {
 	var source = $('#activities-template').html();
 	var template = Handlebars.compile(source);
-	var html = template({activities: window.loadedActivities});
+	var html = template({
+		activities: window.loadedActivities,
+		count: window.loadedActivities.length
+	});
 	var $activityFeedLink = $('li#activity-feed');
 
 	$activityFeedLink.empty();
@@ -76,7 +89,7 @@ Handlebars.registerHelper('activityLink', function() {
 		break;
 
 		case "picture":
-		path = Routes.album_picture_path(activity.profile_name, activity.targetable.album_id, activity.targetable.picture_id);
+		path = Routes.album_picture_path(activity.profile_name, activity.targetable.album_id, activity.targetable_id);
 		break;
 
 		case "userfriendship":
@@ -91,6 +104,10 @@ Handlebars.registerHelper('activityLink', function() {
 
 	html = "<li><a href='"+ path +"'>" + this.user_name + " " + this.action + " a " + linkText + "</a></li>";
 	return new Handlebars.SafeString(html);
+});
+
+Handlebars.registerHelper('activityFeedLink', function(){
+	return new Handlebars.SafeString(Routes.activities_path());
 });
 
 window.poolInterval = window.setInterval( poolActivity, 5000 )
